@@ -8,6 +8,31 @@
 	using global::MongoDB.Bson.Serialization.Attributes;
 	using Microsoft.AspNet.Identity;
 
+	[BsonIgnoreExtraElements]
+	public sealed class UserLoginInfo
+	{
+		/// <summary>
+		///     Constructor
+		/// </summary>
+		/// <param name="loginProvider"></param>
+		/// <param name="providerKey"></param>
+		public UserLoginInfo(string loginProvider, string providerKey)
+		{
+			LoginProvider = loginProvider;
+			ProviderKey = providerKey;
+		}
+
+		/// <summary>
+		///     Provider for the linked login, i.e. Facebook, Google, etc.
+		/// </summary>
+		public string LoginProvider { get; set; }
+
+		/// <summary>
+		///     User specific key for the login provider
+		/// </summary>
+		public string ProviderKey { get; set; }
+	}
+
 	public class IdentityUser : IUser<string>
 	{
 		public IdentityUser()

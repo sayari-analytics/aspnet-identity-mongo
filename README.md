@@ -1,7 +1,9 @@
 AspNet.Identity.Mongo
 =====================
 
-A mongodb provider for the new ASP.NET Identity framework. My aim is to ensure this project is well tested and configurable.
+A mongodb provider for the new ASP.NET Identity framework. My aim is to ensure this project is well tested and configurable. 
+Forked to add a custom UserLoginInfo that includes BsonIgnoreExtraElements, which enables using this in a mixed environment with AspNetCore code
+
 
 ## Usage
 
