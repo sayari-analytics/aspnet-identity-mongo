@@ -9,18 +9,36 @@
 	using Microsoft.AspNet.Identity;
 
 	[BsonIgnoreExtraElements]
-	public sealed class UserLoginInfo
+	public class MongoUserLoginInfo
 	{
-		/// <summary>
-		///     Constructor
-		/// </summary>
-		/// <param name="loginProvider"></param>
-		/// <param name="providerKey"></param>
-		public UserLoginInfo(string loginProvider, string providerKey)
+		public static implicit operator UserLoginInfo(MongoUserLoginInfo login)
+		{
+			return new UserLoginInfo(login.LoginProvider, login.ProviderKey);
+		}
+
+		public static implicit operator MongoUserLoginInfo(UserLoginInfo login)
+		{
+			return new MongoUserLoginInfo(login.LoginProvider, login.ProviderKey);
+		}
+
+
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="loginProvider"></param>
+        /// <param name="providerKey"></param>
+        public MongoUserLoginInfo(string loginProvider, string providerKey)
 		{
 			LoginProvider = loginProvider;
 			ProviderKey = providerKey;
 		}
+
+		//public MongoUserLoginInfo(UserLoginInfo loginInfo)
+		//{
+		//	this.ProviderKey = loginInfo.ProviderKey;
+		//	this.LoginProvider = loginInfo.LoginProvider;
+		//}
+
 
 		/// <summary>
 		///     Provider for the linked login, i.e. Facebook, Google, etc.
@@ -39,7 +57,7 @@
 		{
 			Id = ObjectId.GenerateNewId().ToString();
 			Roles = new List<string>();
-			Logins = new List<UserLoginInfo>();
+			Logins = new List<MongoUserLoginInfo>();
 			Claims = new List<IdentityUserClaim>();
 		}
 
@@ -83,11 +101,11 @@
 		public virtual string PasswordHash { get; set; }
 
 		[BsonIgnoreIfNull]
-		public List<UserLoginInfo> Logins { get; set; }
+		public List<MongoUserLoginInfo> Logins { get; set; }
 
 		public virtual void AddLogin(UserLoginInfo login)
 		{
-			Logins.Add(login);
+			Logins.Add( login );
 		}
 
 		public virtual void RemoveLogin(UserLoginInfo login)
@@ -95,7 +113,6 @@
 			var loginsToRemove = Logins
 				.Where(l => l.LoginProvider == login.LoginProvider)
 				.Where(l => l.ProviderKey == login.ProviderKey);
-
 			Logins = Logins.Except(loginsToRemove).ToList();
 		}
 
