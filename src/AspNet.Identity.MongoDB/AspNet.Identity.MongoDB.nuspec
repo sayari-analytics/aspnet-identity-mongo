@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>AspNet.Identity.MongoDB</id>
+    <id>Sayari.AspNet.Identity.MongoDB</id>
     <version>2.1.1</version>
     <authors>Wes Higbee</authors>
     <owners>Wes Higbee</owners>
